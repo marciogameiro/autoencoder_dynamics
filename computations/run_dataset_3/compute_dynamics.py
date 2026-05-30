@@ -37,7 +37,7 @@ x_max = max(np.concatenate((x_current_enc[:, 0], x_forward_enc[:, 0])))
 y_min = min(np.concatenate((x_current_enc[:, 1], x_forward_enc[:, 1])))
 y_max = max(np.concatenate((x_current_enc[:, 1], x_forward_enc[:, 1])))
 
-delta = 0.10
+delta = 0.1
 dx, dy = x_max - x_min, y_max - y_min
 x_min, x_max = x_min - delta * dx, x_max + delta * dx
 y_min, y_max = y_min - delta * dy, y_max + delta * dy
@@ -54,11 +54,12 @@ def f(x):
     return y[0]
 
 def F(rect):
-    return CMGDB.BoxMap(f, rect, padding=False)
+    return CMGDB.BoxMap(f, rect, padding=True)
+    # return CMGDB.BoxMap(f, rect, padding=False)
 
-subdiv_min = 14 # 16
-subdiv_max = 28 # 24
-subdiv_init = 10 # 10
+subdiv_min = 16
+subdiv_max = 22
+subdiv_init = 14
 subdiv_limit = 10000
 lower_bounds = [x_min, y_min]
 upper_bounds = [x_max, y_max]
