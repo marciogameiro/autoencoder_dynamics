@@ -4,9 +4,6 @@ import torch
 
 model_weights_fname = 'ci_model_weights_1.pth'
 
-# Load model weights from file
-model.load_state_dict(torch.load(model_weights_fname, weights_only=True))
-
 # Read training data from file
 XY = np.loadtxt('train_data.csv', delimiter=',')
 

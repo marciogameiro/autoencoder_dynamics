@@ -37,9 +37,9 @@ def ci_vector_field(t, a):
 def generate_data_ci(num_trajectories, time_steps, tau, N):
     """Generate data for the Chafee-Infante equation"""
     # Random seed for reproducibility
-    rand_seed = 7206
+    # rand_seed = 7206
     # rand_seed = 42
-    # rand_seed = np.random.randint(10000)
+    rand_seed = np.random.randint(10000)
     print('Random seed for initial conditions:', rand_seed)
     np.random.seed(rand_seed)
 
@@ -50,7 +50,7 @@ def generate_data_ci(num_trajectories, time_steps, tau, N):
     t_span = [0, tau * time_steps]
     t_eval = np.linspace(t_span[0], t_span[1], time_steps + 1)
 
-    for _ in range(num_trajectories):
+    for k in range(num_trajectories):
         # Solve ODE with a random initial condition
         a0 = np.random.uniform(-2.0, 2.0, N) * np.exp(-0.5 * np.arange(N))
         sol = solve_ivp(ci_vector_field, t_span, a0, t_eval=t_eval, method='RK45')
@@ -58,6 +58,8 @@ def generate_data_ci(num_trajectories, time_steps, tau, N):
         traj = sol.y.T      # Shape: (time_steps + 1, N)
         X.append(traj[:-1]) # Current states
         Y.append(traj[1:])  # Next states
+        if k % 100 == 0:
+            print('Number of trajectories computed:', k)
     return np.vstack(X), np.vstack(Y)
 
 # Check for NVIDIA GPU (CUDA)
